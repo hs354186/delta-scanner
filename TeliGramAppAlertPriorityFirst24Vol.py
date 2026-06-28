@@ -337,4 +337,4 @@ def main(target_tf='15m'):
     send_telegram_alert(summary)
 
 if __name__ == "__main__":
-    main(target_tf='5m')
+    main(target_tf='15m')
