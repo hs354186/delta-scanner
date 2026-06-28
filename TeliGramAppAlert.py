@@ -72,12 +72,40 @@ def send_telegram_alert_advanced(message):
         return False
 
 # ========== YOUR ORIGINAL FUNCTIONS ==========
+# it will scan all derivatives, including call/put options, futures, and perpetual swaps.
+# def fetch_all_delta_india_tickers(exchange):
+#     """Fetches all active perpetual contracts hosted on the Delta India cluster."""
+#     raw_markets = exchange.fetch_markets()
+    
+#     tradeable_pairs = []
+#     for m in raw_markets:
+#         is_derivative = (
+#             m.get('swap', False) or 
+#             m.get('future', False) or 
+#             m.get('linear', False) or
+#             (m.get('type') in ['swap', 'future', 'linear'])
+#         )
+#         is_active = m.get('active', True)
+        
+#         if is_derivative and is_active:
+#             symbol = m.get('symbol')
+#             raw_id = m.get('id', '')
+            
+#             clean_name = raw_id.replace('_', '').replace('-', '').replace('/', '').replace(':', '')
+            
+#             if (symbol, clean_name) not in tradeable_pairs:
+#                 tradeable_pairs.append((symbol, clean_name))
+                
+#     return tradeable_pairs
+
+# it will not scan call put options, only futures and perpetual swaps.
 def fetch_all_delta_india_tickers(exchange):
     """Fetches all active perpetual contracts hosted on the Delta India cluster."""
     raw_markets = exchange.fetch_markets()
     
     tradeable_pairs = []
     for m in raw_markets:
+        # 1. Identify standard derivatives
         is_derivative = (
             m.get('swap', False) or 
             m.get('future', False) or 
@@ -86,7 +114,11 @@ def fetch_all_delta_india_tickers(exchange):
         )
         is_active = m.get('active', True)
         
-        if is_derivative and is_active:
+        # 2. EXPLICITLY BAN CALL/PUT OPTIONS
+        is_option = m.get('option', False) or (m.get('type') == 'option')
+        
+        # Only pass if it IS a derivative, IS active, and IS NOT an option
+        if is_derivative and is_active and not is_option:
             symbol = m.get('symbol')
             raw_id = m.get('id', '')
             
