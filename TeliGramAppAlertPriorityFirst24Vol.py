@@ -219,7 +219,7 @@ def scan_momentum(symbol, exchange, timeframe):
     return None
 
 # ========== MAIN FUNCTION WITH TELEGRAM INTEGRATION ==========
-def main():
+def main(target_tf='15m'):
     exchange = ccxt.delta({
         'enableRateLimit': True,
         'urls': {
@@ -230,7 +230,8 @@ def main():
         }
     })
     
-    target_tf = '15m'
+    # target_tf = '15m'
+    target_tf = target_tf
     
     print("=" * 60)
     print("🚀 DELTA INDIA SCANNER WITH TELEGRAM ALERTS")
@@ -336,4 +337,4 @@ def main():
     send_telegram_alert(summary)
 
 if __name__ == "__main__":
-    main()
+    main(target_tf='5m')
