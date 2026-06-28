@@ -205,7 +205,7 @@ def main():
         }
     })
     
-    target_tf = '1h'
+    target_tf = '15m'
     
     print("=" * 60)
     print("🚀 DELTA INDIA SCANNER WITH TELEGRAM ALERTS")
@@ -271,9 +271,4 @@ def main():
     send_telegram_alert(summary)
 
 if __name__ == "__main__":
-    print("⚠️  Make sure you have:")
-    print("1. Created a Telegram bot via @BotFather")
-    print("2. Got your Chat ID from @userinfobot")
-    print("3. Added BOT_TOKEN and CHAT_ID to the script")
-    print()
     main()
