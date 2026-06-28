@@ -116,6 +116,13 @@ def fetch_all_delta_india_tickers(exchange):
         
         # 2. EXPLICITLY BAN CALL/PUT OPTIONS
         is_option = m.get('option', False) or (m.get('type') == 'option')
+
+        # # 3. VERIFY QUOTE CURRENCY IS EITHER USDT OR USD
+        # quote = m.get('quote', '').upper()
+        # is_usd_or_usdt = (quote == 'USDT' or quote == 'USD')
+        
+        # # Only pass if it fits all rules
+        # if is_derivative and is_active and not is_option and is_usd_or_usdt:
         
         # Only pass if it IS a derivative, IS active, and IS NOT an option
         if is_derivative and is_active and not is_option:
